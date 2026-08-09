@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PREVISION — Sachez avant de regarder.</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(120, 0, 0, 0.22), transparent 35%),
+                #080808;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            background: rgba(8, 8, 8, 0.78);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 4px;
+        }
+
+        .logo span {
+            color: #c40000;
+        }
+
+        nav a {
+            color: #bdbdbd;
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 0, 0, 0.05),
+                    #080808 90%
+                );
+        }
+
+        .hero h1 {
+            font-size: clamp(60px, 11vw, 130px);
+            font-weight: 900;
+            letter-spacing: 12px;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 span {
+            color: #c40000;
+        }
+
+        .slogan {
+            font-size: clamp(18px, 2vw, 26px);
+            color: #d0d0d0;
+            letter-spacing: 2px;
+            margin-bottom: 45px;
+        }
+
+        .intro {
+            max-width: 650px;
+            line-height: 1.7;
+            color: #999;
+            font-size: 16px;
+            margin-bottom: 45px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            width: min(680px, 90vw);
+            display: flex;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 50px;
+            padding: 6px;
+            transition: 0.3s;
+        }
+
+        .search-box:focus-within {
+            border-color: #a90000;
+            box-shadow: 0 0 30px rgba(170, 0, 0, 0.18);
+        }
+
+        .search-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            padding: 17px 22px;
+            font-size: 16px;
+        }
+
+        .search-box input::placeholder {
+            color: #777;
+        }
+
+        .search-box button {
+            border: none;
+            background: #b00000;
+            color: white;
+            padding: 0 28px;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #e00000;
+        }
+
+        /* =========================
+           PLATFORMS
+        ========================= */
+
+        .platform-section {
+            padding: 100px 6%;
+            border-top: 1px solid rgba(255,255,255,0.06);
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+        }
+
+        .section-title p {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .platforms {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scrollbar-width: thin;
+        }
+
+        .platforms::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        .platforms::-webkit-scrollbar-thumb {
+            background: #5c0000;
+            border-radius: 10px;
+        }
+
+        .platform {
+            min-width: 260px;
+            height: 155px;
+            border-radius: 14px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #171717,
+                    #0d0d0d
+                );
+            border: 1px solid #292929;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: 0.35s;
+        }
+
+        .platform::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(160, 0, 0, 0.18);
+            filter: blur(45px);
+            left: -40px;
+            top: -40px;
+        }
+
+        .platform:hover {
+            transform: translateY(-7px);
+            border-color: #760000;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        .platform-name {
+            position: relative;
+            font-size: 25px;
+            font-weight: 800;
+            z-index: 2;
+        }
+
+        .platform-name small {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            margin-top: 7px;
+            font-weight: normal;
+        }
+
+        /* =========================
+           ABOUT
+        ========================= */
+
+        .about {
+            padding: 110px 20px;
+            text-align: center;
+            background:
+                linear-gradient(
+                    rgba(70, 0, 0, 0.12),
+                    rgba(0,0,0,0)
+                );
+        }
+
+        .about h2 {
+            font-size: 34px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            max-width: 700px;
+            margin: auto;
+            color: #999;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            padding: 35px 6%;
+            border-top: 1px solid #1d1d1d;
+            color: #666;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 0 20px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero h1 {
+                letter-spacing: 5px;
+            }
+
+            .platform {
+                min-width: 220px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+
+        <div class="logo">
+            PRE<span>VISION</span>
+        </div>
+
+        <nav>
+            <a href="#plateformes">Plateformes</a>
+            <a href="#concept">Concept</a>
+        </nav>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <main>
+
+        <section class="hero">
+
+            <h1>PRE<span>VISION</span></h1>
+
+            <div class="slogan">
+                Sachez avant de regarder.
+            </div>
+
+            <p class="intro">
+                Découvrez quoi regarder sans mauvaise surprise.
+                PREVISION vous aide à choisir vos films et séries
+                tout en vous permettant d'anticiper les contenus
+                sensibles ou susceptibles de vous mettre mal à l'aise.
+            </p>
+
+
+            <!-- RECHERCHE -->
+
+            <div class="search-box">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Rechercher un film ou une série..."
+                >
+
+                <button onclick="searchMovie()">
+                    Rechercher
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- PLATEFORMES -->
+
+        <section class="platform-section" id="plateformes">
+
+            <div class="section-title">
+
+                <div>
+                    <h2>Choisissez votre plateforme</h2>
+                    <p>Explorez les contenus disponibles sur vos plateformes préférées.</p>
+                </div>
+
+            </div>
+
+
+            <div class="platforms">
+
+                <div class="platform">
+                    <div class="platform-name">
+                        NETFLIX
+                        <small>Films & séries</small>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <div class="platform-name">
+                        PRIME VIDEO
+                        <small>Films & séries</small>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <div class="platform-name">
+                        DISNEY+
+                        <small>Films & séries</small>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <div class="platform-name">
+                        APPLE TV+
+                        <small>Films & séries</small>
+                    </div>
+                </div>
+
+                <div class="platform">
+                    <div class="platform-name">
+                        CANAL+
+                        <small>Films & séries</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONCEPT -->
+
+        <section class="about" id="concept">
+
+            <h2>Regardez en toute confiance.</h2>
+
+            <p>
+                Un film peut être excellent et pourtant contenir
+                certaines scènes que vous préféreriez éviter.
+                PREVISION a été pensé pour vous permettre de savoir
+                avant de regarder, afin de choisir votre contenu
+                en fonction de vos envies et de vos limites.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <span>© 2026 PREVISION</span>
+
+        <span>Sachez avant de regarder.</span>
+
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        function searchMovie() {
+
+            const searchInput =
+                document.getElementById("searchInput");
+
+            const movie =
+                searchInput.value.trim();
+
+            if (movie === "") {
+
+                alert("Veuillez entrer le nom d'un film ou d'une série.");
+
+                return;
+            }
+
+            alert(
+                "La recherche de « " +
+                movie +
+                " » sera disponible dans la prochaine version de PREVISION."
+            );
+        }
+
+
+        document
+            .getElementById("searchInput")
+            .addEventListener("keypress", function(event) {
+
+                if (event.key === "Enter") {
+
+                    searchMovie();
+
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>
