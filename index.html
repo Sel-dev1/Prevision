@@ -7,60 +7,179 @@
 <title>PREVISION — Sachez avant de regarder</title>
 
 <style>
+:root {
+    --black: #080808;
+    --dark: #101010;
+    --card: #151515;
+    --card-light: #1d1d1d;
+    --white: #f5f5f5;
+    --grey: #a8a8a8;
+    --red: #9d101b;
+    --red-light: #c51c2a;
+    --burgundy: #5c0b14;
+    --gold: #d2a84a;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #080808;
-    color: white;
+html {
+    scroll-behavior: smooth;
 }
 
-/* HERO */
+body {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(120, 10, 20, 0.20), transparent 38%),
+        var(--black);
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+}
 
-.hero {
-    min-height: 72vh;
+/* =========================
+   HEADER
+========================= */
+
+header {
+    position: relative;
+    min-height: 690px;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 40px 20px;
+    overflow: hidden;
+    border-bottom: 1px solid #242424;
+}
+
+header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     background:
-        radial-gradient(circle at center, #3b0b0b 0%, #150303 35%, #080808 75%);
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0.15),
+            rgba(0,0,0,0.85)
+        );
+    pointer-events: none;
+}
+
+/* Projecteur */
+
+.projector-light {
+    position: absolute;
+    width: 850px;
+    height: 850px;
+    top: -500px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+        ellipse,
+        rgba(255,255,255,0.09),
+        rgba(130,0,0,0.04) 35%,
+        transparent 70%
+    );
+    filter: blur(12px);
+}
+
+/* Pellicule décorative */
+
+.film-strip {
+    position: absolute;
+    width: 180px;
+    height: 650px;
+    opacity: 0.06;
+    border: 18px solid white;
+    transform: rotate(12deg);
+    right: 3%;
+    top: 20px;
+}
+
+.film-strip::before,
+.film-strip::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0 28px,
+            white 28px 45px,
+            transparent 45px 70px
+        );
+}
+
+.film-strip::before {
+    left: -38px;
+}
+
+.film-strip::after {
+    right: -38px;
+}
+
+/* Contenu */
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    width: min(900px, 92%);
 }
 
 .logo {
-    font-size: clamp(52px, 10vw, 100px);
+    font-size: clamp(54px, 10vw, 108px);
     font-weight: 900;
-    letter-spacing: 12px;
-    margin-bottom: 12px;
+    letter-spacing: 13px;
+    line-height: 1;
+    text-shadow:
+        0 0 35px rgba(160, 15, 25, 0.25);
+}
+
+.logo-line {
+    width: 180px;
+    height: 3px;
+    margin: 22px auto 18px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--red-light),
+        transparent
+    );
 }
 
 .slogan {
-    font-size: clamp(18px, 3vw, 28px);
-    color: #d6d6d6;
-    letter-spacing: 3px;
-    margin-bottom: 45px;
+    font-size: clamp(18px, 3vw, 27px);
+    letter-spacing: 4px;
+    color: #dddddd;
+    margin-bottom: 48px;
 }
 
-/* SEARCH */
+/* =========================
+   SEARCH
+========================= */
+
+.search-container {
+    width: min(760px, 100%);
+    margin: auto;
+}
 
 .search-box {
-    width: min(720px, 90%);
     display: flex;
-    background: #151515;
-    border: 1px solid #4a4a4a;
-    border-radius: 12px;
+    background: rgba(20,20,20,0.94);
+    border: 1px solid #464646;
+    border-radius: 9px;
     overflow: hidden;
+    box-shadow:
+        0 15px 50px rgba(0,0,0,0.5),
+        0 0 30px rgba(120,0,0,0.08);
 }
 
 .search-box input {
     flex: 1;
-    padding: 18px 20px;
+    padding: 19px 22px;
     background: transparent;
     border: none;
     outline: none;
@@ -69,177 +188,292 @@ body {
 }
 
 .search-box input::placeholder {
-    color: #888;
+    color: #858585;
 }
 
 .search-box button {
-    padding: 0 28px;
+    padding: 0 30px;
+    background: var(--red);
     border: none;
-    background: #9e1111;
     color: white;
+    font-size: 15px;
     font-weight: bold;
     cursor: pointer;
-    font-size: 16px;
+    transition: 0.2s;
 }
 
 .search-box button:hover {
-    background: #c51616;
+    background: var(--red-light);
 }
 
-/* SECTIONS */
+/* =========================
+   GENERAL
+========================= */
 
-section {
-    width: min(1200px, 92%);
+main {
+    width: min(1400px, 94%);
     margin: auto;
 }
 
-.section-title {
-    font-size: 30px;
+section {
+    padding: 70px 0 10px;
+}
+
+.section-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     margin-bottom: 25px;
 }
 
-/* PLATFORMS */
-
-.platform-section {
-    padding: 60px 0;
+.section-heading::before {
+    content: "🎞";
+    font-size: 22px;
+    opacity: 0.8;
 }
 
+.section-heading h2 {
+    font-size: 28px;
+    letter-spacing: 1px;
+}
+
+.section-line {
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        var(--burgundy),
+        transparent
+    );
+    margin-bottom: 30px;
+}
+
+/* =========================
+   PLATFORMS
+========================= */
+
 .platforms {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding: 10px 5px 25px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
 }
 
 .platform {
-    min-width: 190px;
-    height: 120px;
-    border-radius: 14px;
-    background: linear-gradient(145deg, #1c1c1c, #101010);
-    border: 1px solid #333;
+    height: 105px;
+    border: 1px solid #303030;
+    background:
+        linear-gradient(
+            145deg,
+            #1b1b1b,
+            #101010
+        );
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 20px;
-    font-weight: bold;
-    flex-shrink: 0;
     cursor: pointer;
-    transition: 0.2s;
+    font-size: 17px;
+    font-weight: bold;
+    transition: 0.25s;
+    position: relative;
+    overflow: hidden;
+}
+
+.platform::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--red);
+    transform: scaleX(0);
+    transition: 0.25s;
 }
 
 .platform:hover {
     transform: translateY(-5px);
-    border-color: #b51616;
-    box-shadow: 0 10px 30px rgba(120,0,0,0.25);
+    border-color: #5c2025;
+    background: #1c1112;
 }
 
-/* CATALOG */
+.platform:hover::after {
+    transform: scaleX(1);
+}
+
+/* =========================
+   ROWS
+========================= */
 
 .catalog-section {
-    padding: 20px 0 70px;
+    margin-top: 30px;
 }
 
-.catalog-header {
+.catalog-row {
+    position: relative;
+    margin-bottom: 55px;
+}
+
+.row-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 18px;
 }
 
-.catalog-name {
-    font-size: 30px;
+.row-title {
+    font-size: 22px;
+    font-weight: bold;
 }
 
-.catalog-type {
+.row-title span {
+    color: var(--grey);
+    font-size: 14px;
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+.arrow-group {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
-.catalog-type button {
+.arrow {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid #363636;
     background: #171717;
     color: white;
-    border: 1px solid #333;
-    padding: 9px 15px;
-    border-radius: 8px;
     cursor: pointer;
-}
-
-.catalog-type button.active,
-.catalog-type button:hover {
-    background: #9e1111;
-    border-color: #9e1111;
-}
-
-/* RESULTS */
-
-.results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-    gap: 25px;
-}
-
-.movie-card {
-    background: #141414;
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #292929;
+    font-size: 21px;
     transition: 0.2s;
 }
 
-.movie-card:hover {
-    transform: translateY(-6px);
-    border-color: #9e1111;
+.arrow:hover {
+    background: var(--red);
+    border-color: var(--red);
 }
 
-.movie-card img {
+.movie-row {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    padding: 5px 2px 18px;
+}
+
+.movie-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* =========================
+   MOVIE CARD
+========================= */
+
+.movie-card {
+    min-width: 185px;
+    width: 185px;
+    background: var(--card);
+    border: 1px solid #292929;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.movie-card:hover {
+    transform: translateY(-7px);
+    border-color: #762029;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.poster {
     width: 100%;
     aspect-ratio: 2 / 3;
     object-fit: cover;
     display: block;
+    background: #222;
 }
 
 .movie-info {
-    padding: 15px;
+    padding: 13px;
 }
 
 .movie-title {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: bold;
-    margin-bottom: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.movie-year {
-    color: #aaa;
-    font-size: 14px;
-}
-
-.movie-rating {
+.movie-meta {
+    display: flex;
+    justify-content: space-between;
     margin-top: 8px;
-    color: #e2b93b;
+    color: var(--grey);
+    font-size: 12px;
 }
 
-.message {
-    grid-column: 1 / -1;
+.rating {
+    color: var(--gold);
+}
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.loading,
+.empty {
+    width: 100%;
+    padding: 35px;
     text-align: center;
-    padding: 40px;
-    color: #888;
+    color: var(--grey);
 }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 
 footer {
-    text-align: center;
-    padding: 35px 20px;
+    margin-top: 80px;
     border-top: 1px solid #222;
+    padding: 45px 20px;
+    text-align: center;
     color: #777;
 }
 
-/* MOBILE */
+.footer-logo {
+    font-weight: bold;
+    letter-spacing: 5px;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+
+    .platforms {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
 
 @media (max-width: 600px) {
 
+    header {
+        min-height: 620px;
+    }
+
     .logo {
-        letter-spacing: 6px;
+        letter-spacing: 7px;
+    }
+
+    .slogan {
+        letter-spacing: 2px;
     }
 
     .search-box {
@@ -247,17 +481,25 @@ footer {
     }
 
     .search-box button {
-        padding: 15px;
+        padding: 16px;
     }
 
-    .catalog-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 15px;
+    .platforms {
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .platform {
-        min-width: 160px;
+        height: 85px;
+        font-size: 14px;
+    }
+
+    .movie-card {
+        min-width: 145px;
+        width: 145px;
+    }
+
+    .section-heading h2 {
+        font-size: 23px;
     }
 }
 </style>
@@ -265,64 +507,81 @@ footer {
 
 <body>
 
-<!-- HERO -->
+<header>
 
-<div class="hero">
+    <div class="projector-light"></div>
+    <div class="film-strip"></div>
 
-    <div class="logo">PREVISION</div>
+    <div class="hero-content">
 
-    <div class="slogan">
-        Sachez avant de regarder.
+        <div class="logo">
+            PREVISION
+        </div>
+
+        <div class="logo-line"></div>
+
+        <div class="slogan">
+            Sachez avant de regarder.
+        </div>
+
+        <div class="search-container">
+
+            <div class="search-box">
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Rechercher un film ou une série..."
+                >
+
+                <button onclick="searchMovies()">
+                    RECHERCHER
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="search-box">
+</header>
 
-        <input
-            id="searchInput"
-            type="text"
-            placeholder="Rechercher un film ou une série..."
-        >
 
-        <button onclick="searchMovies()">
-            Rechercher
-        </button>
+<main>
 
+<!-- PLATEFORMES -->
+
+<section>
+
+    <div class="section-heading">
+        <h2>Les plateformes</h2>
     </div>
 
-</div>
-
-
-<!-- PLATFORMS -->
-
-<section class="platform-section">
-
-    <h2 class="section-title">
-        Explorer par plateforme
-    </h2>
+    <div class="section-line"></div>
 
     <div class="platforms">
 
-        <div class="platform" onclick="loadCatalog(8, 'Netflix')">
+        <div class="platform" onclick="loadPlatform(8, 'Netflix')">
             Netflix
         </div>
 
-        <div class="platform" onclick="loadCatalog(119, 'Prime Video')">
+        <div class="platform" onclick="loadPlatform(119, 'Prime Video')">
             Prime Video
         </div>
 
-        <div class="platform" onclick="loadCatalog(337, 'Disney+')">
+        <div class="platform" onclick="loadPlatform(337, 'Disney+')">
             Disney+
         </div>
 
-        <div class="platform" onclick="loadCatalog(350, 'Apple TV+')">
+        <div class="platform" onclick="loadPlatform(350, 'Apple TV+')">
             Apple TV+
         </div>
 
-        <div class="platform" onclick="loadCatalog(381, 'CANAL+')">
+        <div class="platform" onclick="loadPlatform(381, 'CANAL+')">
             CANAL+
         </div>
 
-        <div class="platform" onclick="loadCatalog(1899, 'Max')">
+        <div class="platform" onclick="loadPlatform(1899, 'Max')">
             Max
         </div>
 
@@ -331,51 +590,169 @@ footer {
 </section>
 
 
-<!-- CATALOG -->
+<!-- CONTENU -->
 
 <section class="catalog-section">
 
-    <div class="catalog-header">
+    <div id="catalog">
 
-        <h2 id="catalogName" class="catalog-name">
-            Catalogue
-        </h2>
+        <div class="catalog-row">
 
-        <div class="catalog-type">
+            <div class="row-header">
 
-            <button
-                id="moviesButton"
-                class="active"
-                onclick="changeType('movie')"
-            >
-                Films
-            </button>
+                <div class="row-title">
+                    🔥 Les plus populaires
+                </div>
 
-            <button
-                id="seriesButton"
-                onclick="changeType('tv')"
-            >
-                Séries
-            </button>
+                <div class="arrow-group">
+                    <button class="arrow" onclick="moveRow('popular', -1)">‹</button>
+                    <button class="arrow" onclick="moveRow('popular', 1)">›</button>
+                </div>
+
+            </div>
+
+            <div id="popular" class="movie-row">
+                <div class="loading">
+                    Chargement...
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="catalog-row">
+
+            <div class="row-header">
+
+                <div class="row-title">
+                    🆕 Les plus récents
+                </div>
+
+                <div class="arrow-group">
+                    <button class="arrow" onclick="moveRow('recent', -1)">‹</button>
+                    <button class="arrow" onclick="moveRow('recent', 1)">›</button>
+                </div>
+
+            </div>
+
+            <div id="recent" class="movie-row">
+                <div class="loading">
+                    Chargement...
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="catalog-row">
+
+            <div class="row-header">
+
+                <div class="row-title">
+                    ⭐ Les mieux notés
+                </div>
+
+                <div class="arrow-group">
+                    <button class="arrow" onclick="moveRow('rated', -1)">‹</button>
+                    <button class="arrow" onclick="moveRow('rated', 1)">›</button>
+                </div>
+
+            </div>
+
+            <div id="rated" class="movie-row">
+                <div class="loading">
+                    Chargement...
+                </div>
+            </div>
 
         </div>
 
     </div>
 
-    <div id="results" class="results">
 
-        <div class="message">
-            Choisissez une plateforme pour découvrir son catalogue.
+    <!-- CATALOGUE PLATEFORME -->
+
+    <div id="platformCatalog" style="display:none;">
+
+        <div class="section-heading">
+            <h2 id="platformTitle">
+                Catalogue
+            </h2>
         </div>
+
+        <div class="section-line"></div>
+
+
+        <div class="catalog-row">
+
+            <div class="row-header">
+
+                <div class="row-title">
+                    🎬 Films populaires
+                </div>
+
+                <div class="arrow-group">
+                    <button class="arrow" onclick="moveRow('platformMovies', -1)">‹</button>
+                    <button class="arrow" onclick="moveRow('platformMovies', 1)">›</button>
+                </div>
+
+            </div>
+
+            <div id="platformMovies" class="movie-row"></div>
+
+        </div>
+
+
+        <div class="catalog-row">
+
+            <div class="row-header">
+
+                <div class="row-title">
+                    📺 Séries populaires
+                </div>
+
+                <div class="arrow-group">
+                    <button class="arrow" onclick="moveRow('platformSeries', -1)">‹</button>
+                    <button class="arrow" onclick="moveRow('platformSeries', 1)">›</button>
+                </div>
+
+            </div>
+
+            <div id="platformSeries" class="movie-row"></div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECHERCHE -->
+
+    <div id="searchResults" style="display:none;">
+
+        <div class="section-heading">
+            <h2>Résultats de recherche</h2>
+        </div>
+
+        <div class="section-line"></div>
+
+        <div id="searchRow" class="movie-row"></div>
 
     </div>
 
 </section>
 
+</main>
+
 
 <footer>
 
-    PREVISION — Sachez avant de regarder.
+    <div class="footer-logo">
+        PREVISION
+    </div>
+
+    <div>
+        Sachez avant de regarder.
+    </div>
 
 </footer>
 
@@ -385,31 +762,184 @@ footer {
 const API_URL =
     "https://prevision-api.gendronselyann.workers.dev";
 
-let currentPlatform = null;
-let currentPlatformName = "";
-let currentType = "movie";
+
+/* =========================
+   CHARGEMENT ACCUEIL
+========================= */
+
+async function loadHome() {
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL +
+                "/search?query=2026"
+            );
+
+        const data =
+            await response.json();
+
+        const movies =
+            (data.results || [])
+            .filter(
+                item =>
+                    item.media_type === "movie"
+            );
+
+        displayCards(
+            "popular",
+            movies.slice(0, 20)
+        );
+
+        displayCards(
+            "recent",
+            [...movies]
+                .sort(
+                    (a,b) =>
+                        (b.release_date || "")
+                        .localeCompare(
+                            a.release_date || ""
+                        )
+                )
+                .slice(0, 20)
+        );
+
+        displayCards(
+            "rated",
+            [...movies]
+                .sort(
+                    (a,b) =>
+                        (b.vote_average || 0) -
+                        (a.vote_average || 0)
+                )
+                .slice(0, 20)
+        );
+
+    } catch (error) {
+
+        showError("popular");
+        showError("recent");
+        showError("rated");
+
+    }
+
+}
 
 
-/* RECHERCHE */
+/* =========================
+   PLATEFORME
+========================= */
+
+async function loadPlatform(id, name) {
+
+    document
+        .getElementById("catalog")
+        .style.display = "none";
+
+    document
+        .getElementById("searchResults")
+        .style.display = "none";
+
+    document
+        .getElementById("platformCatalog")
+        .style.display = "block";
+
+    document
+        .getElementById("platformTitle")
+        .textContent = name;
+
+    document
+        .getElementById("platformMovies")
+        .innerHTML =
+        '<div class="loading">Chargement des films...</div>';
+
+    document
+        .getElementById("platformSeries")
+        .innerHTML =
+        '<div class="loading">Chargement des séries...</div>';
+
+    try {
+
+        const movieResponse =
+            await fetch(
+                API_URL +
+                "/catalog?platform=" +
+                id
+            );
+
+        const movieData =
+            await movieResponse.json();
+
+        displayCards(
+            "platformMovies",
+            movieData.results || []
+        );
+
+
+        const seriesResponse =
+            await fetch(
+                API_URL +
+                "/series?platform=" +
+                id
+            );
+
+        const seriesData =
+            await seriesResponse.json();
+
+        displayCards(
+            "platformSeries",
+            seriesData.results || []
+        );
+
+        window.scrollTo({
+            top: document
+                .getElementById("platformCatalog")
+                .offsetTop - 30,
+            behavior: "smooth"
+        });
+
+    } catch (error) {
+
+        showError("platformMovies");
+        showError("platformSeries");
+
+    }
+
+}
+
+
+/* =========================
+   RECHERCHE
+========================= */
 
 async function searchMovies() {
 
-    const query =
-        document.getElementById("searchInput").value.trim();
+    const input =
+        document
+        .getElementById("searchInput")
+        .value
+        .trim();
 
-    const results =
-        document.getElementById("results");
+    if (!input) return;
 
-    if (!query) {
+    document
+        .getElementById("catalog")
+        .style.display = "none";
 
-        results.innerHTML =
-            '<div class="message">Veuillez entrer un titre.</div>';
+    document
+        .getElementById("platformCatalog")
+        .style.display = "none";
 
-        return;
-    }
+    document
+        .getElementById("searchResults")
+        .style.display = "block";
 
-    results.innerHTML =
-        '<div class="message">Recherche en cours...</div>';
+    const container =
+        document.getElementById("searchRow");
+
+    container.innerHTML =
+        '<div class="loading">Recherche en cours...</div>';
 
     try {
 
@@ -417,152 +947,54 @@ async function searchMovies() {
             await fetch(
                 API_URL +
                 "/search?query=" +
-                encodeURIComponent(query)
+                encodeURIComponent(input)
             );
 
         const data =
             await response.json();
 
-        const items =
-            (data.results || []).filter(
-                item =>
-                    item.media_type === "movie" ||
-                    item.media_type === "tv"
-            );
+        displayCards(
+            "searchRow",
+            data.results || []
+        );
 
-        displayResults(items);
-
-    } catch (error) {
-
-        results.innerHTML =
-            '<div class="message">Impossible de contacter PREVISION.</div>';
-
-    }
-}
-
-
-/* CATALOGUE */
-
-async function loadCatalog(platform, name) {
-
-    currentPlatform = platform;
-    currentPlatformName = name;
-    currentType = "movie";
-
-    document.getElementById("moviesButton")
-        .classList.add("active");
-
-    document.getElementById("seriesButton")
-        .classList.remove("active");
-
-    document.getElementById("catalogName")
-        .textContent =
-        name + " — Films";
-
-    await fetchCatalog();
-
-}
-
-
-/* CHANGER FILMS / SERIES */
-
-async function changeType(type) {
-
-    if (!currentPlatform) {
-
-        return;
-
-    }
-
-    currentType = type;
-
-    document.getElementById("moviesButton")
-        .classList.toggle("active", type === "movie");
-
-    document.getElementById("seriesButton")
-        .classList.toggle("active", type === "tv");
-
-    document.getElementById("catalogName")
-        .textContent =
-        currentPlatformName +
-        (type === "movie" ? " — Films" : " — Séries");
-
-    await fetchCatalog();
-
-}
-
-
-/* RECUPERATION DU CATALOGUE */
-
-async function fetchCatalog() {
-
-    const results =
-        document.getElementById("results");
-
-    results.innerHTML =
-        '<div class="message">Chargement du catalogue...</div>';
-
-    try {
-
-        let endpoint;
-
-        if (currentType === "movie") {
-
-            endpoint =
-                API_URL +
-                "/catalog?platform=" +
-                currentPlatform;
-
-        } else {
-
-            endpoint =
-                API_URL +
-                "/series?platform=" +
-                currentPlatform;
-
-        }
-
-        const response =
-            await fetch(endpoint);
-
-        const data =
-            await response.json();
-
-        displayResults(data.results || []);
+        window.scrollTo({
+            top: document
+                .getElementById("searchResults")
+                .offsetTop - 30,
+            behavior: "smooth"
+        });
 
     } catch (error) {
 
-        results.innerHTML =
-            '<div class="message">Impossible de charger le catalogue.</div>';
+        showError("searchRow");
 
     }
+
 }
 
 
-/* AFFICHAGE */
+/* =========================
+   CARTES
+========================= */
 
-function displayResults(items) {
+function displayCards(containerId, items) {
 
-    const results =
-        document.getElementById("results");
+    const container =
+        document.getElementById(containerId);
 
-    results.innerHTML = "";
+    container.innerHTML = "";
 
     if (!items.length) {
 
-        results.innerHTML =
-            '<div class="message">Aucun résultat trouvé.</div>';
+        container.innerHTML =
+            '<div class="empty">Aucun résultat.</div>';
 
         return;
+
     }
 
-    items.slice(0, 24).forEach(item => {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "movie-card";
+    items.forEach(item => {
 
         const title =
             item.title ||
@@ -575,79 +1007,191 @@ function displayResults(items) {
             "";
 
         const year =
-            date ? date.substring(0, 4) : "";
+            date
+            ? date.substring(0,4)
+            : "";
 
         const rating =
             item.vote_average
-                ? item.vote_average.toFixed(1)
-                : "N/A";
+            ? Number(item.vote_average).toFixed(1)
+            : "N/A";
 
         const image =
             item.poster_path
-                ? "https://image.tmdb.org/t/p/w500" +
-                  item.poster_path
-                : null;
+            ? "https://image.tmdb.org/t/p/w500" +
+              item.poster_path
+            : "";
+
+        const card =
+            document.createElement("div");
+
+        card.className = "movie-card";
 
         card.innerHTML = `
 
             ${
                 image
-                ? `
-                    <img
-                        src="${image}"
-                        alt="${title}"
-                    >
-                  `
-                : `
-                    <div style="
-                        aspect-ratio:2/3;
+                ?
+                `<img
+                    class="poster"
+                    src="${image}"
+                    alt="${escapeHTML(title)}"
+                    loading="lazy"
+                >`
+                :
+                `<div
+                    class="poster"
+                    style="
                         display:flex;
                         align-items:center;
                         justify-content:center;
-                        background:#222;
                         color:#777;
-                    ">
-                        Pas d'affiche
-                    </div>
-                  `
+                    "
+                >
+                    Aucune affiche
+                </div>`
             }
 
             <div class="movie-info">
 
                 <div class="movie-title">
-                    ${title}
+                    ${escapeHTML(title)}
                 </div>
 
-                <div class="movie-year">
-                    ${year}
-                </div>
+                <div class="movie-meta">
 
-                <div class="movie-rating">
-                    ⭐ ${rating}/10
+                    <span>
+                        ${year}
+                    </span>
+
+                    <span class="rating">
+                        ⭐ ${rating}
+                    </span>
+
                 </div>
 
             </div>
+
         `;
 
-        results.appendChild(card);
+        card.addEventListener(
+            "click",
+            () => openMovie(item)
+        );
+
+        container.appendChild(card);
 
     });
+
 }
 
 
-/* ENTREE */
+/* =========================
+   FICHE FILM
+========================= */
+
+function openMovie(item) {
+
+    /*
+     * Pour le moment on affiche une fiche
+     * temporaire.
+     *
+     * La prochaine étape sera de créer
+     * le vrai système PREVISION :
+     * violence, nudité, sexualité,
+     * langage, mort, drogues, etc.
+     */
+
+    const title =
+        item.title ||
+        item.name ||
+        "Sans titre";
+
+    alert(
+        title +
+        "\n\nLa fiche PREVISION arrive bientôt."
+    );
+
+}
+
+
+/* =========================
+   NAVIGATION HORIZONTALE
+========================= */
+
+function moveRow(id, direction) {
+
+    const row =
+        document.getElementById(id);
+
+    if (!row) return;
+
+    row.scrollBy({
+        left:
+            direction *
+            (row.clientWidth * 0.85),
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   UTILITAIRES
+========================= */
+
+function showError(id) {
+
+    const element =
+        document.getElementById(id);
+
+    if (element) {
+
+        element.innerHTML =
+            '<div class="empty">Impossible de charger les contenus.</div>';
+
+    }
+
+}
+
+
+function escapeHTML(text) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =========================
+   ENTER = RECHERCHE
+========================= */
 
 document
     .getElementById("searchInput")
-    .addEventListener("keydown", function(event) {
+    .addEventListener(
+        "keydown",
+        event => {
 
-        if (event.key === "Enter") {
+            if (event.key === "Enter") {
 
-            searchMovies();
+                searchMovies();
+
+            }
 
         }
+    );
 
-    });
+
+/* =========================
+   START
+========================= */
+
+loadHome();
 
 </script>
 
