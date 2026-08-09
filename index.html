@@ -1,515 +1,485 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>PREVISION — Sachez avant de regarder.</title>
+<title>PREVISION — Sachez avant de regarder</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-        html {
-            scroll-behavior: smooth;
-        }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #080808;
+    color: white;
+    min-height: 100vh;
+}
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background:
-                radial-gradient(circle at 50% 0%, rgba(120, 0, 0, 0.22), transparent 35%),
-                #080808;
-            color: white;
-            min-height: 100vh;
-        }
+/* HERO */
 
-        /* =========================
-           HEADER
-        ========================= */
+.hero {
+    min-height: 72vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background:
+        radial-gradient(circle at center, #3b0b0b 0%, #150303 35%, #080808 75%);
+}
 
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 76px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 6%;
-            background: rgba(8, 8, 8, 0.78);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 100;
-        }
+.logo {
+    font-size: clamp(52px, 10vw, 100px);
+    font-weight: 900;
+    letter-spacing: 12px;
+    margin-bottom: 12px;
+}
 
-        .logo {
-            font-size: 25px;
-            font-weight: 800;
-            letter-spacing: 4px;
-        }
+.slogan {
+    font-size: clamp(18px, 3vw, 28px);
+    color: #d6d6d6;
+    letter-spacing: 3px;
+    margin-bottom: 45px;
+}
 
-        .logo span {
-            color: #c40000;
-        }
+/* SEARCH */
 
-        nav a {
-            color: #bdbdbd;
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 14px;
-            transition: 0.3s;
-        }
+.search-box {
+    width: min(720px, 90%);
+    display: flex;
+    background: #151515;
+    border: 1px solid #4a4a4a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
 
-        nav a:hover {
-            color: white;
-        }
+.search-box input {
+    flex: 1;
+    padding: 18px 20px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 17px;
+}
 
-        /* =========================
-           HERO
-        ========================= */
+.search-box input::placeholder {
+    color: #888;
+}
 
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 20px 80px;
+.search-box button {
+    padding: 0 28px;
+    border: none;
+    background: #9e1111;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+}
 
-            background:
-                linear-gradient(
-                    to bottom,
-                    rgba(0, 0, 0, 0.05),
-                    #080808 90%
-                );
-        }
+.search-box button:hover {
+    background: #c51616;
+}
 
-        .hero h1 {
-            font-size: clamp(60px, 11vw, 130px);
-            font-weight: 900;
-            letter-spacing: 12px;
-            margin-bottom: 15px;
-        }
+/* PLATFORMS */
 
-        .hero h1 span {
-            color: #c40000;
-        }
+.platform-section {
+    padding: 60px 30px;
+    text-align: center;
+}
 
-        .slogan {
-            font-size: clamp(18px, 2vw, 26px);
-            color: #d0d0d0;
-            letter-spacing: 2px;
-            margin-bottom: 45px;
-        }
+.section-title {
+    font-size: 30px;
+    margin-bottom: 35px;
+}
 
-        .intro {
-            max-width: 650px;
-            line-height: 1.7;
-            color: #999;
-            font-size: 16px;
-            margin-bottom: 45px;
-        }
+.platforms {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 10px 5px 25px;
+    scrollbar-width: thin;
+}
 
-        /* =========================
-           SEARCH
-        ========================= */
+.platform {
+    min-width: 190px;
+    height: 120px;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #1c1c1c, #101010);
+    border: 1px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    flex-shrink: 0;
+    transition: transform 0.2s, border 0.2s;
+}
 
-        .search-box {
-            width: min(680px, 90vw);
-            display: flex;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 50px;
-            padding: 6px;
-            transition: 0.3s;
-        }
+.platform:hover {
+    transform: translateY(-5px);
+    border-color: #9e1111;
+}
 
-        .search-box:focus-within {
-            border-color: #a90000;
-            box-shadow: 0 0 30px rgba(170, 0, 0, 0.18);
-        }
+/* RESULTS */
 
-        .search-box input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            padding: 17px 22px;
-            font-size: 16px;
-        }
+.results-section {
+    width: min(1200px, 92%);
+    margin: auto;
+    padding: 30px 0 80px;
+}
 
-        .search-box input::placeholder {
-            color: #777;
-        }
+.results-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+}
 
-        .search-box button {
-            border: none;
-            background: #b00000;
-            color: white;
-            padding: 0 28px;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+.results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: 25px;
+}
 
-        .search-box button:hover {
-            background: #e00000;
-        }
+.movie-card {
+    background: #141414;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #292929;
+    transition: transform 0.2s, border 0.2s;
+    cursor: pointer;
+}
 
-        /* =========================
-           PLATFORMS
-        ========================= */
+.movie-card:hover {
+    transform: translateY(-6px);
+    border-color: #9e1111;
+}
 
-        .platform-section {
-            padding: 100px 6%;
-            border-top: 1px solid rgba(255,255,255,0.06);
-        }
+.movie-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    display: block;
+}
 
-        .section-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            margin-bottom: 35px;
-        }
+.movie-info {
+    padding: 15px;
+}
 
-        .section-title h2 {
-            font-size: 32px;
-        }
+.movie-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
 
-        .section-title p {
-            color: #777;
-            font-size: 14px;
-        }
+.movie-year {
+    color: #aaa;
+    font-size: 14px;
+}
 
-        .platforms {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            padding-bottom: 15px;
-            scrollbar-width: thin;
-        }
+.movie-rating {
+    margin-top: 8px;
+    color: #e2b93b;
+}
 
-        .platforms::-webkit-scrollbar {
-            height: 5px;
-        }
+.loading,
+.error,
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: #aaa;
+}
 
-        .platforms::-webkit-scrollbar-thumb {
-            background: #5c0000;
-            border-radius: 10px;
-        }
+/* FOOTER */
 
-        .platform {
-            min-width: 260px;
-            height: 155px;
-            border-radius: 14px;
-            background:
-                linear-gradient(
-                    135deg,
-                    #171717,
-                    #0d0d0d
-                );
-            border: 1px solid #292929;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            transition: 0.35s;
-        }
+footer {
+    text-align: center;
+    padding: 35px 20px;
+    border-top: 1px solid #222;
+    color: #777;
+    font-size: 13px;
+}
 
-        .platform::before {
-            content: "";
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background: rgba(160, 0, 0, 0.18);
-            filter: blur(45px);
-            left: -40px;
-            top: -40px;
-        }
+/* MOBILE */
 
-        .platform:hover {
-            transform: translateY(-7px);
-            border-color: #760000;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
+@media (max-width: 600px) {
 
-        .platform-name {
-            position: relative;
-            font-size: 25px;
-            font-weight: 800;
-            z-index: 2;
-        }
+    .logo {
+        letter-spacing: 6px;
+    }
 
-        .platform-name small {
-            display: block;
-            font-size: 12px;
-            color: #777;
-            text-align: center;
-            margin-top: 7px;
-            font-weight: normal;
-        }
+    .search-box {
+        flex-direction: column;
+    }
 
-        /* =========================
-           ABOUT
-        ========================= */
+    .search-box button {
+        padding: 15px;
+    }
 
-        .about {
-            padding: 110px 20px;
-            text-align: center;
-            background:
-                linear-gradient(
-                    rgba(70, 0, 0, 0.12),
-                    rgba(0,0,0,0)
-                );
-        }
-
-        .about h2 {
-            font-size: 34px;
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            max-width: 700px;
-            margin: auto;
-            color: #999;
-            line-height: 1.8;
-        }
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            padding: 35px 6%;
-            border-top: 1px solid #1d1d1d;
-            color: #666;
-            font-size: 13px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* =========================
-           RESPONSIVE
-        ========================= */
-
-        @media (max-width: 700px) {
-
-            header {
-                padding: 0 20px;
-            }
-
-            nav {
-                display: none;
-            }
-
-            .hero h1 {
-                letter-spacing: 5px;
-            }
-
-            .platform {
-                min-width: 220px;
-            }
-
-            footer {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
+    .platform {
+        min-width: 160px;
+    }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- HEADER -->
+<section class="hero">
 
-    <header>
+    <div class="logo">PREVISION</div>
 
-        <div class="logo">
-            PRE<span>VISION</span>
+    <div class="slogan">
+        Sachez avant de regarder.
+    </div>
+
+    <div class="search-box">
+
+        <input
+            id="searchInput"
+            type="text"
+            placeholder="Rechercher un film ou une série..."
+        >
+
+        <button onclick="searchMovies()">
+            Rechercher
+        </button>
+
+    </div>
+
+</section>
+
+
+<section class="platform-section">
+
+    <h2 class="section-title">
+        Où regarder ?
+    </h2>
+
+    <div class="platforms">
+
+        <div class="platform">Netflix</div>
+
+        <div class="platform">Prime Video</div>
+
+        <div class="platform">Disney+</div>
+
+        <div class="platform">Apple TV+</div>
+
+        <div class="platform">CANAL+</div>
+
+        <div class="platform">Max</div>
+
+    </div>
+
+</section>
+
+
+<section class="results-section">
+
+    <h2 class="results-title">
+        Résultats
+    </h2>
+
+    <div id="results" class="results">
+
+        <div class="no-results">
+            Recherchez un film pour commencer.
         </div>
 
-        <nav>
-            <a href="#plateformes">Plateformes</a>
-            <a href="#concept">Concept</a>
-        </nav>
+    </div>
 
-    </header>
+</section>
 
 
-    <!-- HERO -->
+<footer>
 
-    <main>
+    PREVISION — Sachez avant de regarder.
 
-        <section class="hero">
-
-            <h1>PRE<span>VISION</span></h1>
-
-            <div class="slogan">
-                Sachez avant de regarder.
-            </div>
-
-            <p class="intro">
-                Découvrez quoi regarder sans mauvaise surprise.
-                PREVISION vous aide à choisir vos films et séries
-                tout en vous permettant d'anticiper les contenus
-                sensibles ou susceptibles de vous mettre mal à l'aise.
-            </p>
+</footer>
 
 
-            <!-- RECHERCHE -->
+<script>
 
-            <div class="search-box">
-
-                <input
-                    type="text"
-                    id="searchInput"
-                    placeholder="Rechercher un film ou une série..."
-                >
-
-                <button onclick="searchMovie()">
-                    Rechercher
-                </button>
-
-            </div>
-
-        </section>
+const API_URL =
+    "https://prevision-api.gendronselyann.workers.dev";
 
 
-        <!-- PLATEFORMES -->
+async function searchMovies() {
 
-        <section class="platform-section" id="plateformes">
+    const input =
+        document.getElementById("searchInput");
 
-            <div class="section-title">
+    const results =
+        document.getElementById("results");
 
-                <div>
-                    <h2>Choisissez votre plateforme</h2>
-                    <p>Explorez les contenus disponibles sur vos plateformes préférées.</p>
-                </div>
-
-            </div>
+    const query =
+        input.value.trim();
 
 
-            <div class="platforms">
+    if (!query) {
 
-                <div class="platform">
-                    <div class="platform-name">
-                        NETFLIX
-                        <small>Films & séries</small>
-                    </div>
-                </div>
+        results.innerHTML =
+            '<div class="error">Veuillez entrer un titre.</div>';
 
-                <div class="platform">
-                    <div class="platform-name">
-                        PRIME VIDEO
-                        <small>Films & séries</small>
-                    </div>
-                </div>
-
-                <div class="platform">
-                    <div class="platform-name">
-                        DISNEY+
-                        <small>Films & séries</small>
-                    </div>
-                </div>
-
-                <div class="platform">
-                    <div class="platform-name">
-                        APPLE TV+
-                        <small>Films & séries</small>
-                    </div>
-                </div>
-
-                <div class="platform">
-                    <div class="platform-name">
-                        CANAL+
-                        <small>Films & séries</small>
-                    </div>
-                </div>
-
-            </div>
-
-        </section>
+        return;
+    }
 
 
-        <!-- CONCEPT -->
-
-        <section class="about" id="concept">
-
-            <h2>Regardez en toute confiance.</h2>
-
-            <p>
-                Un film peut être excellent et pourtant contenir
-                certaines scènes que vous préféreriez éviter.
-                PREVISION a été pensé pour vous permettre de savoir
-                avant de regarder, afin de choisir votre contenu
-                en fonction de vos envies et de vos limites.
-            </p>
-
-        </section>
-
-    </main>
+    results.innerHTML =
+        '<div class="loading">Recherche en cours...</div>';
 
 
-    <!-- FOOTER -->
+    try {
 
-    <footer>
-
-        <span>© 2026 PREVISION</span>
-
-        <span>Sachez avant de regarder.</span>
-
-    </footer>
-
-
-    <!-- JAVASCRIPT -->
-
-    <script>
-
-        function searchMovie() {
-
-            const searchInput =
-                document.getElementById("searchInput");
-
-            const movie =
-                searchInput.value.trim();
-
-            if (movie === "") {
-
-                alert("Veuillez entrer le nom d'un film ou d'une série.");
-
-                return;
-            }
-
-            alert(
-                "La recherche de « " +
-                movie +
-                " » sera disponible dans la prochaine version de PREVISION."
+        const response =
+            await fetch(
+                API_URL +
+                "/search?query=" +
+                encodeURIComponent(query)
             );
+
+
+        if (!response.ok) {
+
+            throw new Error("Erreur API");
+
         }
 
 
-        document
-            .getElementById("searchInput")
-            .addEventListener("keypress", function(event) {
+        const data =
+            await response.json();
 
-                if (event.key === "Enter") {
 
-                    searchMovie();
+        const movies =
+            data.results.filter(
+                item =>
+                    item.media_type === "movie" ||
+                    item.media_type === "tv"
+            );
 
+
+        if (!movies.length) {
+
+            results.innerHTML =
+                '<div class="no-results">Aucun résultat trouvé.</div>';
+
+            return;
+        }
+
+
+        results.innerHTML = "";
+
+
+        movies.slice(0, 12).forEach(movie => {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "movie-card";
+
+
+            const title =
+                movie.title ||
+                movie.name ||
+                "Sans titre";
+
+
+            const date =
+                movie.release_date ||
+                movie.first_air_date ||
+                "";
+
+
+            const year =
+                date ? date.substring(0, 4) : "";
+
+
+            const rating =
+                movie.vote_average
+                    ? movie.vote_average.toFixed(1)
+                    : "N/A";
+
+
+            const image =
+                movie.poster_path
+                    ? "https://image.tmdb.org/t/p/w500" +
+                      movie.poster_path
+                    : "";
+
+
+            card.innerHTML = `
+
+                ${
+                    image
+                    ? `<img src="${image}" alt="${title}">`
+                    : `<div style="
+                        aspect-ratio:2/3;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        background:#222;
+                        color:#777;
+                      ">
+                        Pas d'affiche
+                      </div>`
                 }
 
-            });
+                <div class="movie-info">
 
-    </script>
+                    <div class="movie-title">
+                        ${title}
+                    </div>
+
+                    <div class="movie-year">
+                        ${year}
+                    </div>
+
+                    <div class="movie-rating">
+                        ⭐ ${rating}/10
+                    </div>
+
+                </div>
+            `;
+
+
+            results.appendChild(card);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        results.innerHTML =
+            '<div class="error">Impossible de contacter PREVISION.</div>';
+
+    }
+
+}
+
+
+document
+    .getElementById("searchInput")
+    .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            searchMovies();
+
+        }
+
+    });
+
+</script>
 
 </body>
 </html>
