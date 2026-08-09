@@ -771,58 +771,99 @@ async function loadHome() {
 
     try {
 
-        const response =
+        const popularResponse =
             await fetch(
-                API_URL +
-                "/search?query=2026"
+                API_URL + "/popular"
             );
 
-        const data =
-            await response.json();
+        const popularData =
+            await popularResponse.json();
 
-        const movies =
-            (data.results || [])
-            .filter(
-                item =>
-                    item.media_type === "movie"
+        const popular =
+            (popularData.results || [])
+            .slice(0, 20);
+
+
+        const recentResponse =
+            await fetch(
+                API_URL + "/recent"
             );
+
+        const recentData =
+            await recentResponse.json();
+
+        const recent =
+            (recentData.results || [])
+            .slice(0, 20);
+
+
+        const ratedResponse =
+            await fetch(
+                API_URL + "/rated"
+            );
+
+        const ratedData =
+            await ratedResponse.json();
+
+        const rated =
+            (ratedData.results || [])
+            .slice(0, 20);
+
 
         displayCards(
             "popular",
-            movies.slice(0, 20)
+            popular
         );
 
         displayCards(
             "recent",
-            [...movies]
-                .sort(
-                    (a,b) =>
-                        (b.release_date || "")
-                        .localeCompare(
-                            a.release_date || ""
-                        )
-                )
-                .slice(0, 20)
+            recent
         );
 
         displayCards(
             "rated",
-            [...movies]
-                .sort(
-                    (a,b) =>
-                        (b.vote_average || 0) -
-                        (a.vote_average || 0)
-                )
-                .slice(0, 20)
+            rated
         );
 
+
     } catch (error) {
+
+        console.error(
+            "Erreur accueil :",
+            error
+        );
 
         showError("popular");
         showError("recent");
         showError("rated");
 
     }
+
+}
+
+
+/* =========================
+   RETOUR ACCUEIL
+========================= */
+
+function goHome() {
+
+    document
+        .getElementById("catalog")
+        .style.display = "block";
+
+    document
+        .getElementById("platformCatalog")
+        .style.display = "none";
+
+    document
+        .getElementById("searchResults")
+        .style.display = "none";
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
 }
 
@@ -849,6 +890,7 @@ async function loadPlatform(id, name) {
         .getElementById("platformTitle")
         .textContent = name;
 
+
     document
         .getElementById("platformMovies")
         .innerHTML =
@@ -858,6 +900,7 @@ async function loadPlatform(id, name) {
         .getElementById("platformSeries")
         .innerHTML =
         '<div class="loading">Chargement des séries...</div>';
+
 
     try {
 
@@ -892,14 +935,22 @@ async function loadPlatform(id, name) {
             seriesData.results || []
         );
 
+
         window.scrollTo({
-            top: document
+            top:
+                document
                 .getElementById("platformCatalog")
                 .offsetTop - 30,
             behavior: "smooth"
         });
 
+
     } catch (error) {
+
+        console.error(
+            "Erreur plateforme :",
+            error
+        );
 
         showError("platformMovies");
         showError("platformSeries");
@@ -923,6 +974,7 @@ async function searchMovies() {
 
     if (!input) return;
 
+
     document
         .getElementById("catalog")
         .style.display = "none";
@@ -935,11 +987,13 @@ async function searchMovies() {
         .getElementById("searchResults")
         .style.display = "block";
 
+
     const container =
         document.getElementById("searchRow");
 
     container.innerHTML =
         '<div class="loading">Recherche en cours...</div>';
+
 
     try {
 
@@ -958,14 +1012,22 @@ async function searchMovies() {
             data.results || []
         );
 
+
         window.scrollTo({
-            top: document
+            top:
+                document
                 .getElementById("searchResults")
                 .offsetTop - 30,
             behavior: "smooth"
         });
 
+
     } catch (error) {
+
+        console.error(
+            "Erreur recherche :",
+            error
+        );
 
         showError("searchRow");
 
@@ -978,12 +1040,16 @@ async function searchMovies() {
    CARTES
 ========================= */
 
-function displayCards(containerId, items) {
+function displayCards(
+    containerId,
+    items
+) {
 
     const container =
         document.getElementById(containerId);
 
     container.innerHTML = "";
+
 
     if (!items.length) {
 
@@ -994,6 +1060,7 @@ function displayCards(containerId, items) {
 
     }
 
+
     items.forEach(item => {
 
         const title =
@@ -1001,20 +1068,26 @@ function displayCards(containerId, items) {
             item.name ||
             "Sans titre";
 
+
         const date =
             item.release_date ||
             item.first_air_date ||
             "";
 
+
         const year =
             date
-            ? date.substring(0,4)
+            ? date.substring(0, 4)
             : "";
+
 
         const rating =
             item.vote_average
-            ? Number(item.vote_average).toFixed(1)
+            ? Number(
+                item.vote_average
+            ).toFixed(1)
             : "N/A";
+
 
         const image =
             item.poster_path
@@ -1022,10 +1095,13 @@ function displayCards(containerId, items) {
               item.poster_path
             : "";
 
+
         const card =
             document.createElement("div");
 
-        card.className = "movie-card";
+        card.className =
+            "movie-card";
+
 
         card.innerHTML = `
 
@@ -1052,17 +1128,20 @@ function displayCards(containerId, items) {
                 </div>`
             }
 
+
             <div class="movie-info">
 
                 <div class="movie-title">
                     ${escapeHTML(title)}
                 </div>
 
+
                 <div class="movie-meta">
 
                     <span>
                         ${year}
                     </span>
+
 
                     <span class="rating">
                         ⭐ ${rating}
@@ -1074,10 +1153,12 @@ function displayCards(containerId, items) {
 
         `;
 
+
         card.addEventListener(
             "click",
             () => openMovie(item)
         );
+
 
         container.appendChild(card);
 
@@ -1092,20 +1173,11 @@ function displayCards(containerId, items) {
 
 function openMovie(item) {
 
-    /*
-     * Pour le moment on affiche une fiche
-     * temporaire.
-     *
-     * La prochaine étape sera de créer
-     * le vrai système PREVISION :
-     * violence, nudité, sexualité,
-     * langage, mort, drogues, etc.
-     */
-
     const title =
         item.title ||
         item.name ||
         "Sans titre";
+
 
     alert(
         title +
@@ -1119,18 +1191,25 @@ function openMovie(item) {
    NAVIGATION HORIZONTALE
 ========================= */
 
-function moveRow(id, direction) {
+function moveRow(
+    id,
+    direction
+) {
 
     const row =
         document.getElementById(id);
 
     if (!row) return;
 
+
     row.scrollBy({
+
         left:
             direction *
             (row.clientWidth * 0.85),
+
         behavior: "smooth"
+
     });
 
 }
@@ -1144,6 +1223,7 @@ function showError(id) {
 
     const element =
         document.getElementById(id);
+
 
     if (element) {
 
@@ -1160,7 +1240,8 @@ function escapeHTML(text) {
     const div =
         document.createElement("div");
 
-    div.textContent = text;
+    div.textContent =
+        text;
 
     return div.innerHTML;
 
@@ -1192,8 +1273,6 @@ document
 ========================= */
 
 loadHome();
-
-</script>
 
 </body>
 </html>
