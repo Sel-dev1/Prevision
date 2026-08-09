@@ -17,7 +17,6 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     background: #080808;
     color: white;
-    min-height: 100vh;
 }
 
 /* HERO */
@@ -57,7 +56,6 @@ body {
     border: 1px solid #4a4a4a;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
 .search-box input {
@@ -88,16 +86,22 @@ body {
     background: #c51616;
 }
 
-/* PLATFORMS */
+/* SECTIONS */
 
-.platform-section {
-    padding: 60px 30px;
-    text-align: center;
+section {
+    width: min(1200px, 92%);
+    margin: auto;
 }
 
 .section-title {
     font-size: 30px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
+}
+
+/* PLATFORMS */
+
+.platform-section {
+    padding: 60px 0;
 }
 
 .platforms {
@@ -105,7 +109,6 @@ body {
     gap: 20px;
     overflow-x: auto;
     padding: 10px 5px 25px;
-    scrollbar-width: thin;
 }
 
 .platform {
@@ -120,26 +123,54 @@ body {
     font-size: 20px;
     font-weight: bold;
     flex-shrink: 0;
-    transition: transform 0.2s, border 0.2s;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
 .platform:hover {
     transform: translateY(-5px);
+    border-color: #b51616;
+    box-shadow: 0 10px 30px rgba(120,0,0,0.25);
+}
+
+/* CATALOG */
+
+.catalog-section {
+    padding: 20px 0 70px;
+}
+
+.catalog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.catalog-name {
+    font-size: 30px;
+}
+
+.catalog-type {
+    display: flex;
+    gap: 10px;
+}
+
+.catalog-type button {
+    background: #171717;
+    color: white;
+    border: 1px solid #333;
+    padding: 9px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.catalog-type button.active,
+.catalog-type button:hover {
+    background: #9e1111;
     border-color: #9e1111;
 }
 
 /* RESULTS */
-
-.results-section {
-    width: min(1200px, 92%);
-    margin: auto;
-    padding: 30px 0 80px;
-}
-
-.results-title {
-    font-size: 28px;
-    margin-bottom: 25px;
-}
 
 .results {
     display: grid;
@@ -152,8 +183,7 @@ body {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid #292929;
-    transition: transform 0.2s, border 0.2s;
-    cursor: pointer;
+    transition: 0.2s;
 }
 
 .movie-card:hover {
@@ -188,12 +218,11 @@ body {
     color: #e2b93b;
 }
 
-.loading,
-.error,
-.no-results {
+.message {
+    grid-column: 1 / -1;
     text-align: center;
-    padding: 30px;
-    color: #aaa;
+    padding: 40px;
+    color: #888;
 }
 
 /* FOOTER */
@@ -203,7 +232,6 @@ footer {
     padding: 35px 20px;
     border-top: 1px solid #222;
     color: #777;
-    font-size: 13px;
 }
 
 /* MOBILE */
@@ -222,6 +250,12 @@ footer {
         padding: 15px;
     }
 
+    .catalog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
     .platform {
         min-width: 160px;
     }
@@ -231,7 +265,9 @@ footer {
 
 <body>
 
-<section class="hero">
+<!-- HERO -->
+
+<div class="hero">
 
     <div class="logo">PREVISION</div>
 
@@ -253,44 +289,83 @@ footer {
 
     </div>
 
-</section>
+</div>
 
+
+<!-- PLATFORMS -->
 
 <section class="platform-section">
 
     <h2 class="section-title">
-        Où regarder ?
+        Explorer par plateforme
     </h2>
 
     <div class="platforms">
 
-        <div class="platform">Netflix</div>
+        <div class="platform" onclick="loadCatalog(8, 'Netflix')">
+            Netflix
+        </div>
 
-        <div class="platform">Prime Video</div>
+        <div class="platform" onclick="loadCatalog(119, 'Prime Video')">
+            Prime Video
+        </div>
 
-        <div class="platform">Disney+</div>
+        <div class="platform" onclick="loadCatalog(337, 'Disney+')">
+            Disney+
+        </div>
 
-        <div class="platform">Apple TV+</div>
+        <div class="platform" onclick="loadCatalog(350, 'Apple TV+')">
+            Apple TV+
+        </div>
 
-        <div class="platform">CANAL+</div>
+        <div class="platform" onclick="loadCatalog(381, 'CANAL+')">
+            CANAL+
+        </div>
 
-        <div class="platform">Max</div>
+        <div class="platform" onclick="loadCatalog(1899, 'Max')">
+            Max
+        </div>
 
     </div>
 
 </section>
 
 
-<section class="results-section">
+<!-- CATALOG -->
 
-    <h2 class="results-title">
-        Résultats
-    </h2>
+<section class="catalog-section">
+
+    <div class="catalog-header">
+
+        <h2 id="catalogName" class="catalog-name">
+            Catalogue
+        </h2>
+
+        <div class="catalog-type">
+
+            <button
+                id="moviesButton"
+                class="active"
+                onclick="changeType('movie')"
+            >
+                Films
+            </button>
+
+            <button
+                id="seriesButton"
+                onclick="changeType('tv')"
+            >
+                Séries
+            </button>
+
+        </div>
+
+    </div>
 
     <div id="results" class="results">
 
-        <div class="no-results">
-            Recherchez un film pour commencer.
+        <div class="message">
+            Choisissez une plateforme pour découvrir son catalogue.
         </div>
 
     </div>
@@ -310,31 +385,31 @@ footer {
 const API_URL =
     "https://prevision-api.gendronselyann.workers.dev";
 
+let currentPlatform = null;
+let currentPlatformName = "";
+let currentType = "movie";
+
+
+/* RECHERCHE */
 
 async function searchMovies() {
 
-    const input =
-        document.getElementById("searchInput");
+    const query =
+        document.getElementById("searchInput").value.trim();
 
     const results =
         document.getElementById("results");
 
-    const query =
-        input.value.trim();
-
-
     if (!query) {
 
         results.innerHTML =
-            '<div class="error">Veuillez entrer un titre.</div>';
+            '<div class="message">Veuillez entrer un titre.</div>';
 
         return;
     }
 
-
     results.innerHTML =
-        '<div class="loading">Recherche en cours...</div>';
-
+        '<div class="message">Recherche en cours...</div>';
 
     try {
 
@@ -345,127 +420,222 @@ async function searchMovies() {
                 encodeURIComponent(query)
             );
 
-
-        if (!response.ok) {
-
-            throw new Error("Erreur API");
-
-        }
-
-
         const data =
             await response.json();
 
-
-        const movies =
-            data.results.filter(
+        const items =
+            (data.results || []).filter(
                 item =>
                     item.media_type === "movie" ||
                     item.media_type === "tv"
             );
 
+        displayResults(items);
 
-        if (!movies.length) {
+    } catch (error) {
 
-            results.innerHTML =
-                '<div class="no-results">Aucun résultat trouvé.</div>';
+        results.innerHTML =
+            '<div class="message">Impossible de contacter PREVISION.</div>';
 
-            return;
+    }
+}
+
+
+/* CATALOGUE */
+
+async function loadCatalog(platform, name) {
+
+    currentPlatform = platform;
+    currentPlatformName = name;
+    currentType = "movie";
+
+    document.getElementById("moviesButton")
+        .classList.add("active");
+
+    document.getElementById("seriesButton")
+        .classList.remove("active");
+
+    document.getElementById("catalogName")
+        .textContent =
+        name + " — Films";
+
+    await fetchCatalog();
+
+}
+
+
+/* CHANGER FILMS / SERIES */
+
+async function changeType(type) {
+
+    if (!currentPlatform) {
+
+        return;
+
+    }
+
+    currentType = type;
+
+    document.getElementById("moviesButton")
+        .classList.toggle("active", type === "movie");
+
+    document.getElementById("seriesButton")
+        .classList.toggle("active", type === "tv");
+
+    document.getElementById("catalogName")
+        .textContent =
+        currentPlatformName +
+        (type === "movie" ? " — Films" : " — Séries");
+
+    await fetchCatalog();
+
+}
+
+
+/* RECUPERATION DU CATALOGUE */
+
+async function fetchCatalog() {
+
+    const results =
+        document.getElementById("results");
+
+    results.innerHTML =
+        '<div class="message">Chargement du catalogue...</div>';
+
+    try {
+
+        let endpoint;
+
+        if (currentType === "movie") {
+
+            endpoint =
+                API_URL +
+                "/catalog?platform=" +
+                currentPlatform;
+
+        } else {
+
+            endpoint =
+                API_URL +
+                "/series?platform=" +
+                currentPlatform;
+
         }
 
+        const response =
+            await fetch(endpoint);
 
-        results.innerHTML = "";
+        const data =
+            await response.json();
 
+        displayResults(data.results || []);
 
-        movies.slice(0, 12).forEach(movie => {
+    } catch (error) {
 
-            const card =
-                document.createElement("div");
+        results.innerHTML =
+            '<div class="message">Impossible de charger le catalogue.</div>';
 
-            card.className =
-                "movie-card";
-
-
-            const title =
-                movie.title ||
-                movie.name ||
-                "Sans titre";
+    }
+}
 
 
-            const date =
-                movie.release_date ||
-                movie.first_air_date ||
-                "";
+/* AFFICHAGE */
 
+function displayResults(items) {
 
-            const year =
-                date ? date.substring(0, 4) : "";
+    const results =
+        document.getElementById("results");
 
+    results.innerHTML = "";
 
-            const rating =
-                movie.vote_average
-                    ? movie.vote_average.toFixed(1)
-                    : "N/A";
+    if (!items.length) {
 
+        results.innerHTML =
+            '<div class="message">Aucun résultat trouvé.</div>';
 
-            const image =
-                movie.poster_path
-                    ? "https://image.tmdb.org/t/p/w500" +
-                      movie.poster_path
-                    : "";
+        return;
+    }
 
+    items.slice(0, 24).forEach(item => {
 
-            card.innerHTML = `
+        const card =
+            document.createElement("div");
 
-                ${
-                    image
-                    ? `<img src="${image}" alt="${title}">`
-                    : `<div style="
+        card.className =
+            "movie-card";
+
+        const title =
+            item.title ||
+            item.name ||
+            "Sans titre";
+
+        const date =
+            item.release_date ||
+            item.first_air_date ||
+            "";
+
+        const year =
+            date ? date.substring(0, 4) : "";
+
+        const rating =
+            item.vote_average
+                ? item.vote_average.toFixed(1)
+                : "N/A";
+
+        const image =
+            item.poster_path
+                ? "https://image.tmdb.org/t/p/w500" +
+                  item.poster_path
+                : null;
+
+        card.innerHTML = `
+
+            ${
+                image
+                ? `
+                    <img
+                        src="${image}"
+                        alt="${title}"
+                    >
+                  `
+                : `
+                    <div style="
                         aspect-ratio:2/3;
                         display:flex;
                         align-items:center;
                         justify-content:center;
                         background:#222;
                         color:#777;
-                      ">
+                    ">
                         Pas d'affiche
-                      </div>`
-                }
-
-                <div class="movie-info">
-
-                    <div class="movie-title">
-                        ${title}
                     </div>
+                  `
+            }
 
-                    <div class="movie-year">
-                        ${year}
-                    </div>
+            <div class="movie-info">
 
-                    <div class="movie-rating">
-                        ⭐ ${rating}/10
-                    </div>
-
+                <div class="movie-title">
+                    ${title}
                 </div>
-            `;
 
+                <div class="movie-year">
+                    ${year}
+                </div>
 
-            results.appendChild(card);
+                <div class="movie-rating">
+                    ⭐ ${rating}/10
+                </div>
 
-        });
+            </div>
+        `;
 
+        results.appendChild(card);
 
-    } catch (error) {
-
-        console.error(error);
-
-        results.innerHTML =
-            '<div class="error">Impossible de contacter PREVISION.</div>';
-
-    }
-
+    });
 }
 
+
+/* ENTREE */
 
 document
     .getElementById("searchInput")
